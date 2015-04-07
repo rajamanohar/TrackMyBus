@@ -10,5 +10,5 @@
 #import <MapKit/MapKit.h>
 //#import "MapView.h"
 @interface MapViewController : UIViewController<MKMapViewDelegate>
-@property(nonatomic,weak) IBOutlet MKMapView *mapview;
+@property(nonatomic,retain) IBOutlet MKMapView *mapview;
 @end
