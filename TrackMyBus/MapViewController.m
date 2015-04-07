@@ -108,6 +108,7 @@
 
 -(void)clickonTargetButton:(id)sender
 {
+     [btnTarget  setImage:[UIImage imageNamed:@"map_target_open.png"] forState:UIControlStateNormal];
     CLLocationCoordinate2D PersonCoordinate;
     PersonCoordinate.latitude = 17.442412;
     PersonCoordinate.longitude =  78.357249;
