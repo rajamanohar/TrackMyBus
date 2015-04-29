@@ -111,7 +111,7 @@
     }else if(indexPath.section==2){
         cell.textLabel.text=[NSString stringWithFormat:@"%@",[arrSettings objectAtIndex:indexPath.row]];
     }
-    UILabel *lblBackLine=[[UILabel alloc]initWithFrame:CGRectMake(0, cell.frame.size.height-1, cell.frame.size.width, 1)];
+    UILabel *lblBackLine=[[UILabel alloc]initWithFrame:CGRectMake(0, 49, cell.frame.size.width, 1)];
     lblBackLine.backgroundColor=[UIColor blackColor];
     lblBackLine.alpha=0.3;
     [cell addSubview:lblBackLine];

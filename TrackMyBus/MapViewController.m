@@ -11,7 +11,6 @@
 #import "MapViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import <QuartzCore/QuartzCore.h>
-
 #import "EntityAnnotation.h"
 
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
@@ -20,6 +19,7 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property(strong,nonatomic)  UITapGestureRecognizer *tapGestureRecognizer;
 @property(strong,nonatomic)  UIPanGestureRecognizer *panGestureRecognizer;
+
 @property (nonatomic, retain) MKPolyline *routeLine;
 @property (nonatomic, retain) MKPolylineView *routeLineView;
 
@@ -90,6 +90,17 @@
     [self.mapview setRegion:region animated:YES];
     
     
+    CLLocationCoordinate2D coordinateArray[2];
+    coordinateArray[0] = CLLocationCoordinate2DMake(BusCoordinate.latitude, BusCoordinate.longitude);
+    coordinateArray[1] = CLLocationCoordinate2DMake(PersonCoordinate.latitude, PersonCoordinate.longitude);
+    
+    
+    self.routeLine = [MKPolyline polylineWithCoordinates:coordinateArray count:2];
+    [self.mapview setVisibleMapRect:[self.routeLine boundingMapRect]]; //If you want the route to be visible
+    
+    [self.mapview addOverlay:self.routeLine];
+    
+    
 }
 
 -(void)addTargetImageToMapView
@@ -108,6 +119,7 @@
 
 -(void)clickonTargetButton:(id)sender
 {
+    UIButton *btnTarget=(UIButton *)sender;
      [btnTarget  setImage:[UIImage imageNamed:@"map_target_open.png"] forState:UIControlStateNormal];
     CLLocationCoordinate2D PersonCoordinate;
     PersonCoordinate.latitude = 17.442412;
@@ -250,10 +262,29 @@
         
      }
     
+    
+    
     return returnedAnnotationView;
 }
 
-
+-(MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay
+{
+    if(overlay == self.routeLine)
+    {
+        if(nil == self.routeLineView)
+        {
+            self.routeLineView = [[MKPolylineView alloc] initWithPolyline:self.routeLine];
+            self.routeLineView.fillColor = [UIColor redColor];
+            self.routeLineView.strokeColor = [UIColor redColor];
+            self.routeLineView.lineWidth = 5;
+            
+        }
+        
+        return self.routeLineView;
+    }
+    
+    return nil;
+}
 
 //- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 //{
